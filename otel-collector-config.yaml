@@ -8,16 +8,19 @@ receivers:
 
 processors:
   batch:
+    send_batch_size: 1000
+    timeout: 10s
 
 exporters:
-  otlp:
-    endpoint: all-in-one-uhld.onrender.com:443
+  otlp/jaeger:
+    # Thay 'jaeger-all-in-one' bằng "Internal Hostname" chính xác trên Render của bạn
+    endpoint: jaeger-all-in-one:4317 
     tls:
-      insecure: false
+      insecure: true
 
 service:
   pipelines:
     traces:
       receivers: [otlp]
       processors: [batch]
-      exporters: [otlp]
+      exporters: [otlp/jaeger]
