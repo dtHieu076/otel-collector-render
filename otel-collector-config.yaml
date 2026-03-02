@@ -4,18 +4,18 @@ receivers:
       grpc:
       http:
 
-exporters:
-  jaeger:
-    endpoint: https://all-in-one-uhld.onrender.com:14250
-    tls:
-      insecure: true
-
 processors:
   batch:
+
+exporters:
+  otlp:
+    endpoint: https://all-in-one-uhld.onrender.com:4317
+    tls:
+      insecure: false
 
 service:
   pipelines:
     traces:
       receivers: [otlp]
       processors: [batch]
-      exporters: [jaeger]
+      exporters: [otlp]
